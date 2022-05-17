@@ -1,0 +1,85 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  color: white;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+h1 {
+  color: #d0d0ff;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
+  padding-bottom: 8px;
+}
+
+.container {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#toolbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 8px;
+  width: 110px;
+  background-color: #1f2021;
+}
+
+#toolbar * {
+  margin-bottom: 8px;
+}
+
+#toolbar label {
+  font-size: 16px;
+}
+
+#toolbar input {
+  width: 100%;
+}
+
+#toolbar button {
+  background-color: #6969b7;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  padding: 2px;
+}
+
+#canvas-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  background-color: #6969b7;
+  width: 100%;
+  height: 100%;
+}
+
+#drawing-board {
+  background-color: white;
+  margin: auto;
+  overflow: hidden;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+/*# sourceMappingURL=styles.css.map */

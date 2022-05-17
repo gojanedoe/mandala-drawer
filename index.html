@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Mandala Drawer</title>
+
+    <script src="jquery-3.6.0.js"></script>
+    <!--  For production, use CDN: <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <section class="container">
+      <div id="toolbar">
+        <h1>Draw A <br />Mandala</h1>
+        <label for="color-picker">Color: </label>
+        <input
+          id="color-picker"
+          type="color"
+          name="color-picker"
+          value="#5858cb"
+        />
+        <label for="line-width">Line Width: </label>
+        <input id="line-width" type="number" name="line-width" value="5" />
+        <label for="brush-size">Brush Size:</label>
+        <input type="range" id="brush-size" min="1" max="50" value="10" />
+        <button id="save-btn">Save</button>
+        <button id="undo-btn">Undo</button>
+        <!-- Try out more emmet -->
+        <button id="clear-btn">Clear</button>
+      </div>
+      <div id="canvas-container">
+        <canvas id="drawing-board">
+          Sorry! The browser you are using does not support this web
+          application. Please upgrade your browser, make sure you are using a
+          supported browser (Chrome, Opera, Firefox, Safari, Internet Explorer
+          9, or Konqueror), and/or make sure your JavaScript is enabled.
+        </canvas>
+      </div>
+    </section>
+  </body>
+</html>
