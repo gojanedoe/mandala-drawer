@@ -57,8 +57,8 @@ const init = () => {
     })
     .mouseup((e) => {
       brush.down = false;
-      currentStroke = null;
       setBrushCoord(e);
+      currentStroke = null;
     })
     .mousemove((e) => {
       if (brush.down) setBrushCoord(e);
@@ -83,8 +83,10 @@ const init = () => {
   });
 
   $("#clear-btn").click(() => {
-    strokes = [];
-    redraw();
+    if (window.confirm("Are you sure you want to clear the canvas?")) {
+      strokes = [];
+      redraw();
+    }
   });
 
   $("#color-picker").on("input", () => {
@@ -96,6 +98,11 @@ const init = () => {
   //   //.on("change", (e) => {
   //   brush.color = $("#color-picker").val();
   // });
+
+  $("#brush-size").on("input", () => {
+    brush.size = $("#brush-size").val();
+    $("#brush-size-label").text(brush.size);
+  });
 };
 
 $(init); // same as $(document).ready(init)
