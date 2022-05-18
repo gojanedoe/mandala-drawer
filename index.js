@@ -49,17 +49,31 @@ const drawSavedLines = () => {
 const exportCanvas = () => {
   let win = window.open();
   let base64URL = canvas[0].toDataURL();
+  // Full width and height version:
+  // win.document.write(
+  //   '<iframe src="' +
+  //     base64URL +
+  //     '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+  // );
   win.document.write(
     '<iframe src="' +
       base64URL +
-      '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+      '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:' +
+      canvas.width() +
+      "px; height:" +
+      canvas.height() +
+      'px;" allowfullscreen></iframe>'
   );
 };
 
 const init = () => {
   // Setup canvas
   canvas = $("#canvas");
-  canvas.attr({ width: window.innerWidth, height: window.innerHeight });
+  canvas.attr({
+    width: $("#canvas-container").width(),
+    height: $("#canvas-container").height()
+  });
+
   ctx = canvas[0].getContext("2d");
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
