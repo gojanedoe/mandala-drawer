@@ -8,6 +8,7 @@ let brush = {
   lastY: 0
 };
 let lines = [];
+// let fraction = 4;
 
 const draw = (e) => {
   if (brush.isDown) {
@@ -20,6 +21,7 @@ const draw = (e) => {
 
     // Redraw
     drawSavedLines();
+    drawMirror();
   }
 };
 
@@ -36,9 +38,70 @@ const drawSavedLines = () => {
     ctx.beginPath();
     ctx.moveTo(line.points[0].x, line.points[0].y);
 
+    // TODO:
+    // Move draw mirror here
+    // Draw lines in order of them drawn
+    // First line drawn in each type so they are correctly layered
+
     // Draw all points
     line.points.forEach((point) => {
       ctx.lineTo(point.x, point.y);
+    });
+
+    // Finish stroke
+    ctx.stroke();
+  });
+};
+
+const drawMirror = () => {
+  lines.forEach((line) => {
+    ctx.lineWidth = line.size;
+    ctx.strokeStyle = line.color;
+
+    // Start line
+    ctx.beginPath();
+    ctx.moveTo(canvas.width() - line.points[0].x, line.points[0].y);
+
+    // Draw all points
+    line.points.forEach((point) => {
+      ctx.lineTo(canvas.width() - point.x, point.y);
+    });
+
+    // Finish stroke
+    ctx.stroke();
+  });
+
+  lines.forEach((line) => {
+    ctx.lineWidth = line.size;
+    ctx.strokeStyle = line.color;
+
+    // Start line
+    ctx.beginPath();
+    ctx.moveTo(line.points[0].x, canvas.height() - line.points[0].y);
+
+    // Draw all points
+    line.points.forEach((point) => {
+      ctx.lineTo(point.x, canvas.height() - point.y);
+    });
+
+    // Finish stroke
+    ctx.stroke();
+  });
+
+  lines.forEach((line) => {
+    ctx.lineWidth = line.size;
+    ctx.strokeStyle = line.color;
+
+    // Start line
+    ctx.beginPath();
+    ctx.moveTo(
+      canvas.width() - line.points[0].x,
+      canvas.height() - line.points[0].y
+    );
+
+    // Draw all points
+    line.points.forEach((point) => {
+      ctx.lineTo(canvas.width() - point.x, canvas.height() - point.y);
     });
 
     // Finish stroke
@@ -112,6 +175,7 @@ const init = () => {
     });
 
     drawSavedLines();
+    drawMirror();
   });
 
   $(document).mouseup(() => {
