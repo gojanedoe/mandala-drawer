@@ -75,7 +75,7 @@ h1 {
   height: 100%;
 }
 
-#drawing-board {
+#canvas {
   background-color: white;
   margin: auto;
   overflow: hidden;

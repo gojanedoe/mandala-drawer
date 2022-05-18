@@ -1,103 +1,126 @@
 let canvas;
 let ctx;
 let brush = {
-  x: 0,
-  y: 0,
   color: "#000",
   size: 10,
-  down: false
+  isDown: false,
+  lastX: 0,
+  lastY: 0
 };
-let strokes = [];
-let currentStroke = null;
+let lines = [];
 
-const redraw = () => {
-  ctx.clearRect(0, 0, canvas.width(), canvas.height());
+const draw = (e) => {
+  if (brush.isDown) {
+    // Reset last point
+    brush.lastX = e.offsetX;
+    brush.lastY = e.offsetY;
 
-  $(strokes).each((index, stroke) => {
-    ctx.strokeStyle = stroke.color;
-    ctx.lineWidth = stroke.size;
+    // Save new point's coordinates for line
+    lines[lines.length - 1].points.push({ x: e.offsetX, y: e.offsetY });
+
+    // Redraw
+    drawSavedLines();
+  }
+};
+
+const drawSavedLines = () => {
+  ctx.clearRect(0, 0, canvas.width(), canvas.height()); // Clear canvas
+
+  // Redraw lines
+  lines.forEach((line) => {
+    // Set line color and size
+    ctx.lineWidth = line.size;
+    ctx.strokeStyle = line.color;
+
+    // Start line
     ctx.beginPath();
-    ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+    ctx.moveTo(line.points[0].x, line.points[0].y);
 
-    $(stroke.points).each((index, point) => {
+    // Draw all points
+    line.points.forEach((point) => {
       ctx.lineTo(point.x, point.y);
     });
 
+    // Finish stroke
     ctx.stroke();
   });
 };
 
+const exportCanvas = () => {
+  let win = window.open();
+  let base64URL = canvas[0].toDataURL();
+  win.document.write(
+    '<iframe src="' +
+      base64URL +
+      '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
+  );
+};
+
 const init = () => {
-  canvas = $("#drawing-board");
+  // Setup canvas
+  canvas = $("#canvas");
   canvas.attr({ width: window.innerWidth, height: window.innerHeight });
   ctx = canvas[0].getContext("2d");
+  ctx.lineJoin = "round";
+  ctx.lineCap = "round";
 
   // Set initial color
-  // works: brush.color = $("#color-picker")[0].value;
   brush.color = $("#color-picker").val();
 
-  const setBrushCoord = (e) => {
-    brush.x = e.offsetX;
-    brush.y = e.offsetY;
-
-    currentStroke.points.push({
-      x: brush.x,
-      y: brush.y
-    });
-
-    redraw();
-  };
-
-  $(canvas)
-    .mousedown((e) => {
-      brush.down = true;
-      currentStroke = { color: brush.color, size: brush.size, points: [] };
-      strokes.push(currentStroke);
-      setBrushCoord(e);
-    })
-    .mouseup((e) => {
-      brush.down = false;
-      setBrushCoord(e);
-      currentStroke = null;
-    })
-    .mousemove((e) => {
-      if (brush.down) setBrushCoord(e);
-    });
-
-  $("#save-btn").click(() => {
-    // window.open(canvas[0].toDataURL()); -> Does not work on Chrome
-
-    // Work around for Chrome:
-    let win = window.open();
-    let base64URL = canvas[0].toDataURL();
-    win.document.write(
-      '<iframe src="' +
-        base64URL +
-        '" frameborder="0" style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>'
-    );
+  // Setup event handlers
+  canvas.mousemove((e) => {
+    draw(e);
   });
 
+  canvas.mousedown((e) => {
+    // Save brush settings
+    brush = {
+      color: $("#color-picker").val(),
+      size: $("#brush-size").val(),
+      isDown: true,
+      lastX: e.offsetX,
+      lastY: e.offsetY
+    };
+
+    // Use brush settings for line
+    ctx.lineWidth = brush.size;
+    ctx.strokeStyle = brush.color;
+
+    // Start new line
+    ctx.beginPath();
+    ctx.moveTo(brush.lastX, brush.lastY);
+
+    // Save start of new line
+    lines.push({
+      color: brush.color,
+      size: brush.size,
+      points: [{ x: e.offsetX, y: e.offsetY }]
+    });
+
+    drawSavedLines();
+  });
+
+  $(document).mouseup(() => {
+    brush.isDown = false;
+  });
+
+  $("#save-btn").click(exportCanvas);
+
   $("#undo-btn").click(() => {
-    strokes.pop(); // remove last stroke
-    redraw();
+    lines.pop(); // Remove last stroke
+    drawSavedLines();
   });
 
   $("#clear-btn").click(() => {
     if (window.confirm("Are you sure you want to clear the canvas?")) {
-      strokes = [];
-      redraw();
+      lines = [];
+      ctx.clearRect(0, 0, canvas.width(), canvas.height()); // Clear canvas
     }
   });
 
   $("#color-picker").on("input", () => {
     brush.color = $("#color-picker").val();
   });
-
-  // Also works:
-  // $("#color-picker").change(() => {
-  //   //.on("change", (e) => {
-  //   brush.color = $("#color-picker").val();
-  // });
 
   $("#brush-size").on("input", () => {
     brush.size = $("#brush-size").val();
