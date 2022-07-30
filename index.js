@@ -21,7 +21,7 @@ const draw = (e) => {
 
     // Redraw
     drawSavedLines();
-    drawMirror();
+    // drawMirror();
   }
 };
 
@@ -38,14 +38,22 @@ const drawSavedLines = () => {
     ctx.beginPath();
     ctx.moveTo(line.points[0].x, line.points[0].y);
 
-    // TODO:
-    // Move draw mirror here
-    // Draw lines in order of them drawn
-    // First line drawn in each type so they are correctly layered
-
     // Draw all points
     line.points.forEach((point) => {
       ctx.lineTo(point.x, point.y);
+    });
+
+    // Finish stroke
+    ctx.stroke();
+
+    // MIRROR LINE
+    // Start line
+    ctx.beginPath();
+    ctx.moveTo(line.points[0].y, line.points[0].x);
+
+    // Draw all points
+    line.points.forEach((point) => {
+      ctx.lineTo(point.y, point.x);
     });
 
     // Finish stroke
@@ -54,59 +62,103 @@ const drawSavedLines = () => {
 };
 
 const drawMirror = () => {
-  lines.forEach((line) => {
-    ctx.lineWidth = line.size;
-    ctx.strokeStyle = line.color;
-
-    // Start line
-    ctx.beginPath();
-    ctx.moveTo(canvas.width() - line.points[0].x, line.points[0].y);
-
-    // Draw all points
-    line.points.forEach((point) => {
-      ctx.lineTo(canvas.width() - point.x, point.y);
-    });
-
-    // Finish stroke
-    ctx.stroke();
-  });
-
-  lines.forEach((line) => {
-    ctx.lineWidth = line.size;
-    ctx.strokeStyle = line.color;
-
-    // Start line
-    ctx.beginPath();
-    ctx.moveTo(line.points[0].x, canvas.height() - line.points[0].y);
-
-    // Draw all points
-    line.points.forEach((point) => {
-      ctx.lineTo(point.x, canvas.height() - point.y);
-    });
-
-    // Finish stroke
-    ctx.stroke();
-  });
-
-  lines.forEach((line) => {
-    ctx.lineWidth = line.size;
-    ctx.strokeStyle = line.color;
-
-    // Start line
-    ctx.beginPath();
-    ctx.moveTo(
-      canvas.width() - line.points[0].x,
-      canvas.height() - line.points[0].y
-    );
-
-    // Draw all points
-    line.points.forEach((point) => {
-      ctx.lineTo(canvas.width() - point.x, canvas.height() - point.y);
-    });
-
-    // Finish stroke
-    ctx.stroke();
-  });
+  // lines.forEach((line) => {
+  //   ctx.lineWidth = line.size;
+  //   ctx.strokeStyle = line.color;
+  //   // Start line
+  //   ctx.beginPath();
+  //   ctx.moveTo(
+  //     // canvas.height() / 2 + line.points[0].y,
+  //     // canvas.width() / 2 + line.points[0].x
+  //     line.points[0].y,
+  //     line.points[0].x
+  //   );
+  //   console.log("copy height: ", "copy width: ");
+  //   // Draw all points
+  //   line.points.forEach((point) => {
+  //     // ctx.lineTo(canvas.height() / 2 + point.y, canvas.width() / 2 + point.x);
+  //     ctx.lineTo(point.y, point.x);
+  //   });
+  //   // Finish stroke
+  //   ctx.stroke();
+  // });
+  // width
+  //   lines.forEach((line) => {
+  //     ctx.lineWidth = line.size;
+  //     ctx.strokeStyle = line.color;
+  //     // Start line
+  //     ctx.beginPath();
+  //     ctx.moveTo(canvas.width() - line.points[0].x, line.points[0].y);
+  //     // Draw all points
+  //     line.points.forEach((point) => {
+  //       ctx.lineTo(canvas.width() - point.x, point.y);
+  //     });
+  //     // Finish stroke
+  //     ctx.stroke();
+  //   });
+  //   lines.forEach((line) => {
+  //     ctx.lineWidth = line.size;
+  //     ctx.strokeStyle = line.color;
+  //     // Start line
+  //     ctx.beginPath();
+  //     ctx.moveTo(line.points[0].x, canvas.height() - line.points[0].y);
+  //     // Draw all points
+  //     line.points.forEach((point) => {
+  //       ctx.lineTo(point.x, canvas.height() - point.y);
+  //     });
+  //     // Finish stroke
+  //     ctx.stroke();
+  //   });
+  //   lines.forEach((line) => {
+  //     ctx.lineWidth = line.size;
+  //     ctx.strokeStyle = line.color;
+  //     // Start line
+  //     ctx.beginPath();
+  //     ctx.moveTo(
+  //       canvas.width() - line.points[0].x,
+  //       canvas.height() - line.points[0].y
+  //     );
+  //     // Draw all points
+  //     line.points.forEach((point) => {
+  //       ctx.lineTo(canvas.width() - point.x, canvas.height() - point.y);
+  //     });
+  //     // Finish stroke
+  //     ctx.stroke();
+  //   });
+  //   lines.forEach((line) => {
+  //     ctx.lineWidth = line.size;
+  //     ctx.strokeStyle = line.color;
+  //     // Start line
+  //     ctx.beginPath();
+  //     ctx.moveTo(line.points[0].y, line.points[0].x);
+  //     // Draw all points
+  //     line.points.forEach((point) => {
+  //       ctx.lineTo(point.y, point.x);
+  //     });
+  //     // Finish stroke
+  //     ctx.stroke();
+  //   });
+  //   lines.forEach((line) => {
+  //     ctx.lineWidth = line.size;
+  //     ctx.strokeStyle = line.color;
+  //     // Start line
+  //     ctx.beginPath();
+  //     // ctx.moveTo(line.points[0].y, canvas.height() - line.points[0].x);
+  //     ctx.moveTo(
+  //       line.points[0].y,
+  //       canvas.width() - (line.points[0].x / canvas.width()) * canvas.height()
+  //     );
+  //     // Draw all points
+  //     line.points.forEach((point) => {
+  //       // ctx.lineTo(point.y, canvas.height() - point.x);
+  //       ctx.lineTo(
+  //         line.points[0].y,
+  //         canvas.width() - (line.points[0].x / canvas.width()) * canvas.height()
+  //       );
+  //     });
+  //     // Finish stroke
+  //     ctx.stroke();
+  //   });
 };
 
 const exportCanvas = () => {
@@ -132,10 +184,26 @@ const exportCanvas = () => {
 const init = () => {
   // Setup canvas
   canvas = $("#canvas");
+  let containerW = $("#canvas-container").width();
+  let containerH = $("#canvas-container").height();
+
   canvas.attr({
-    width: $("#canvas-container").width(),
-    height: $("#canvas-container").height()
+    width: containerW,
+    height: containerH
   });
+
+  // If width is smaller, square to that
+  // if (containerW < containerH) {
+  //   canvas.attr({
+  //     width: containerW,
+  //     height: containerW
+  //   });
+  // } else {
+  //   canvas.attr({
+  //     width: containerH,
+  //     height: containerH
+  //   });
+  // }
 
   ctx = canvas[0].getContext("2d");
   ctx.lineJoin = "round";
@@ -187,6 +255,7 @@ const init = () => {
   $("#undo-btn").click(() => {
     lines.pop(); // Remove last stroke
     drawSavedLines();
+    drawMirror();
   });
 
   $("#clear-btn").click(() => {
