@@ -8,7 +8,6 @@ let brush = {
   lastY: 0
 };
 let lines = [];
-// let fraction = 4;
 
 const draw = (e) => {
   if (brush.isDown) {
@@ -46,120 +45,73 @@ const drawSavedLines = () => {
     // Finish stroke
     ctx.stroke();
 
-    // MIRROR LINE
-    // Start line
+    // ------ 1ST MIRROR LINE ------
     ctx.beginPath();
     ctx.moveTo(line.points[0].y, line.points[0].x);
-
-    // Draw all points
     line.points.forEach((point) => {
       ctx.lineTo(point.y, point.x);
     });
+    ctx.stroke();
 
-    // Finish stroke
+    // ------ 2ND MIRROR LINE ------
+    ctx.beginPath();
+    ctx.moveTo(canvas.width() - line.points[0].x, line.points[0].y);
+    line.points.forEach((point) => {
+      ctx.lineTo(canvas.width() - point.x, point.y);
+    });
+    ctx.stroke();
+
+    // ------ 3RD MIRROR LINE ------
+    ctx.beginPath();
+    ctx.moveTo(line.points[0].x, canvas.height() - line.points[0].y);
+    line.points.forEach((point) => {
+      ctx.lineTo(point.x, canvas.height() - point.y);
+    });
+    ctx.stroke();
+
+    // ------ 4TH MIRROR LINE ------
+    ctx.beginPath();
+    ctx.moveTo(
+      canvas.width() - line.points[0].x,
+      canvas.height() - line.points[0].y
+    );
+    line.points.forEach((point) => {
+      ctx.lineTo(canvas.width() - point.x, canvas.height() - point.y);
+    });
+    ctx.stroke();
+
+    // ------ 5TH MIRROR LINE ------
+    ctx.beginPath();
+    ctx.moveTo(
+      canvas.height() - line.points[0].y,
+      canvas.width() - line.points[0].x
+    );
+    line.points.forEach((point) => {
+      ctx.lineTo(canvas.height() - point.y, canvas.width() - point.x);
+    });
+    ctx.stroke();
+
+    // ------ 6TH MIRROR LINE ------
+    ctx.beginPath();
+    ctx.moveTo(canvas.height() - line.points[0].y, line.points[0].x);
+    line.points.forEach((point) => {
+      ctx.lineTo(canvas.height() - point.y, point.x);
+    });
+    ctx.stroke();
+
+    // ------ 7TH MIRROR LINE ------
+    ctx.beginPath();
+    ctx.moveTo(line.points[0].y, canvas.width() - line.points[0].x);
+    line.points.forEach((point) => {
+      ctx.lineTo(point.y, canvas.width() - point.x);
+    });
     ctx.stroke();
   });
+
+  // drawAxis();
 };
 
-const drawMirror = () => {
-  // lines.forEach((line) => {
-  //   ctx.lineWidth = line.size;
-  //   ctx.strokeStyle = line.color;
-  //   // Start line
-  //   ctx.beginPath();
-  //   ctx.moveTo(
-  //     // canvas.height() / 2 + line.points[0].y,
-  //     // canvas.width() / 2 + line.points[0].x
-  //     line.points[0].y,
-  //     line.points[0].x
-  //   );
-  //   console.log("copy height: ", "copy width: ");
-  //   // Draw all points
-  //   line.points.forEach((point) => {
-  //     // ctx.lineTo(canvas.height() / 2 + point.y, canvas.width() / 2 + point.x);
-  //     ctx.lineTo(point.y, point.x);
-  //   });
-  //   // Finish stroke
-  //   ctx.stroke();
-  // });
-  // width
-  //   lines.forEach((line) => {
-  //     ctx.lineWidth = line.size;
-  //     ctx.strokeStyle = line.color;
-  //     // Start line
-  //     ctx.beginPath();
-  //     ctx.moveTo(canvas.width() - line.points[0].x, line.points[0].y);
-  //     // Draw all points
-  //     line.points.forEach((point) => {
-  //       ctx.lineTo(canvas.width() - point.x, point.y);
-  //     });
-  //     // Finish stroke
-  //     ctx.stroke();
-  //   });
-  //   lines.forEach((line) => {
-  //     ctx.lineWidth = line.size;
-  //     ctx.strokeStyle = line.color;
-  //     // Start line
-  //     ctx.beginPath();
-  //     ctx.moveTo(line.points[0].x, canvas.height() - line.points[0].y);
-  //     // Draw all points
-  //     line.points.forEach((point) => {
-  //       ctx.lineTo(point.x, canvas.height() - point.y);
-  //     });
-  //     // Finish stroke
-  //     ctx.stroke();
-  //   });
-  //   lines.forEach((line) => {
-  //     ctx.lineWidth = line.size;
-  //     ctx.strokeStyle = line.color;
-  //     // Start line
-  //     ctx.beginPath();
-  //     ctx.moveTo(
-  //       canvas.width() - line.points[0].x,
-  //       canvas.height() - line.points[0].y
-  //     );
-  //     // Draw all points
-  //     line.points.forEach((point) => {
-  //       ctx.lineTo(canvas.width() - point.x, canvas.height() - point.y);
-  //     });
-  //     // Finish stroke
-  //     ctx.stroke();
-  //   });
-  //   lines.forEach((line) => {
-  //     ctx.lineWidth = line.size;
-  //     ctx.strokeStyle = line.color;
-  //     // Start line
-  //     ctx.beginPath();
-  //     ctx.moveTo(line.points[0].y, line.points[0].x);
-  //     // Draw all points
-  //     line.points.forEach((point) => {
-  //       ctx.lineTo(point.y, point.x);
-  //     });
-  //     // Finish stroke
-  //     ctx.stroke();
-  //   });
-  //   lines.forEach((line) => {
-  //     ctx.lineWidth = line.size;
-  //     ctx.strokeStyle = line.color;
-  //     // Start line
-  //     ctx.beginPath();
-  //     // ctx.moveTo(line.points[0].y, canvas.height() - line.points[0].x);
-  //     ctx.moveTo(
-  //       line.points[0].y,
-  //       canvas.width() - (line.points[0].x / canvas.width()) * canvas.height()
-  //     );
-  //     // Draw all points
-  //     line.points.forEach((point) => {
-  //       // ctx.lineTo(point.y, canvas.height() - point.x);
-  //       ctx.lineTo(
-  //         line.points[0].y,
-  //         canvas.width() - (line.points[0].x / canvas.width()) * canvas.height()
-  //       );
-  //     });
-  //     // Finish stroke
-  //     ctx.stroke();
-  //   });
-};
+const drawMirror = () => {};
 
 const exportCanvas = () => {
   let win = window.open();
@@ -181,6 +133,28 @@ const exportCanvas = () => {
   );
 };
 
+const drawAxis = () => {
+  // More info: https://stackoverflow.com/questions/67205161/how-to-translate-mouse-x-y-coordinates-to-move-html-element-inside-a-container-w
+
+  let radius = canvas.width() / 2;
+
+  ctx.strokeStyle = "red";
+  ctx.lineWidth = 1;
+
+  let angleNum = 4;
+  let angleDelta = (Math.PI * 2) / angleNum;
+
+  for (let i = 0; i < angleNum; i++) {
+    ctx.beginPath();
+    ctx.moveTo(radius, radius);
+    ctx.lineTo(
+      radius + Math.cos(angleDelta * i) * radius,
+      radius + Math.sin(angleDelta * i) * radius
+    );
+    ctx.stroke();
+  }
+};
+
 const init = () => {
   // Setup canvas
   canvas = $("#canvas");
@@ -192,20 +166,27 @@ const init = () => {
     height: containerH
   });
 
-  // If width is smaller, square to that
-  // if (containerW < containerH) {
-  //   canvas.attr({
-  //     width: containerW,
-  //     height: containerW
-  //   });
-  // } else {
-  //   canvas.attr({
-  //     width: containerH,
-  //     height: containerH
-  //   });
-  // }
+  // Create square canvas using smallest side (width or height)
+  if (containerW < containerH) {
+    canvas.attr({
+      width: containerW,
+      height: containerW
+    });
+  } else {
+    canvas.attr({
+      width: containerH,
+      height: containerH
+    });
+  }
 
   ctx = canvas[0].getContext("2d");
+
+  // Center origin
+  // From: https://stackoverflow.com/questions/29742350/write-0-0-in-center-of-the-canvas-html5
+  // ctx.translate(containerW / 2, containerH / 2);
+
+  // drawAxis();
+
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
 
