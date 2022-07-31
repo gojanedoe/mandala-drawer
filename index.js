@@ -8,6 +8,7 @@ let brush = {
   lastY: 0
 };
 let lines = [];
+let guidesOn = false;
 
 const draw = (e) => {
   if (brush.isDown) {
@@ -108,6 +109,9 @@ const drawSavedLines = () => {
     ctx.stroke();
   });
 
+  if (guidesOn) {
+    drawAxis();
+  }
   // drawAxis();
 };
 
@@ -190,6 +194,12 @@ const init = () => {
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
 
+  // Set if axis are on
+  guidesOn = $("#guides-btn").is(":checked");
+  if (guidesOn) {
+    drawAxis();
+  }
+
   // Set initial color
   brush.color = $("#color-picker").val();
 
@@ -243,6 +253,10 @@ const init = () => {
     if (window.confirm("Are you sure you want to clear the canvas?")) {
       lines = [];
       ctx.clearRect(0, 0, canvas.width(), canvas.height()); // Clear canvas
+
+      if (guidesOn) {
+        drawAxis();
+      }
     }
   });
 
@@ -253,6 +267,11 @@ const init = () => {
   $("#brush-size").on("input", () => {
     brush.size = $("#brush-size").val();
     $("#brush-size-label").text(brush.size);
+  });
+
+  $("#guides-btn").on("input", () => {
+    guidesOn = $("#guides-btn").is(":checked");
+    drawSavedLines();
   });
 };
 
